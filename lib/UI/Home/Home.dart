@@ -1,14 +1,15 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nike/UI/Home/bloc/home_bloc.dart';
 import 'package:nike/UI/Widgets/pageviewscrollbar.dart';
 import 'package:nike/data/Model/Entity/Product.dart';
-import 'package:nike/data/Model/Entity/banner.dart';
 import 'package:nike/data/Repository/banner_repository.dart';
 import 'package:nike/data/Repository/productrepository.dart';
+
+const String lorem =
+    'لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ، و با استفاده از طراحان گرافیک است، چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است، و برای شرایط فعلی تکنولوژی مورد نیاز، و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد، .';
 
 class MyHomePage extends StatelessWidget {
   const MyHomePage();
@@ -103,36 +104,55 @@ class ProductFilterListWidget extends StatelessWidget {
             itemBuilder: (context, index) {
               return Padding(
                 padding: const EdgeInsets.all(8),
-                child: SizedBox(
-                  width: 150,
-                  height: 50,
-                  child: Column(
-                    children: [
-                      Stack(
-                        children: [
-                          ProductsItemsListView(
-                            borderRaduis: 0,
-                            lists: products,
-                            index: index,
-                          ),
-                          Positioned(
-                            top: 10,
-                            right: 5,
-                            child: Container(
-                              width: 30,
-                              height: 30,
-                              decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(15)),
-                              child: Icon(
-                                CupertinoIcons.heart,
+                child: InkWell(
+                  onTap: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          ProductDetailScreen(product: products[index]),
+                    ),
+                  ),
+                  child: SizedBox(
+                    width: 150,
+                    height: 50,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Stack(
+                          children: [
+                            ProductsItemsListView(
+                              borderRaduis: 0,
+                              lists: products,
+                              index: index,
+                            ),
+                            Positioned(
+                              top: 10,
+                              right: 5,
+                              child: Container(
+                                width: 30,
+                                height: 30,
+                                decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(15)),
+                                child: Icon(
+                                  CupertinoIcons.heart,
+                                ),
                               ),
                             ),
-                          ),
-                        ],
-                      ),
-                      Text(products[index].title)
-                    ],
+                          ],
+                        ),
+                        Text(
+                          products[index].title,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        Text(
+                          products[index].previousPrice.toString(),
+                          style: const TextStyle(
+                              decoration: TextDecoration.lineThrough),
+                        ),
+                        Text(products[index].price.toString()),
+                      ],
+                    ),
                   ),
                 ),
               );
@@ -140,6 +160,58 @@ class ProductFilterListWidget extends StatelessWidget {
           ),
         )
       ],
+    );
+  }
+}
+
+class ProductDetailScreen extends StatelessWidget {
+  final ProductEntity product;
+
+  const ProductDetailScreen({super.key, required this.product});
+  @override
+  Widget build(BuildContext context) {
+    return Directionality(
+      textDirection: TextDirection.rtl,
+      child: Scaffold(
+        body: CustomScrollView(
+          slivers: [
+            SliverAppBar(
+              expandedHeight: MediaQuery.of(context).size.width - 100,
+              flexibleSpace: ClipRRect(
+                child: CachedNetworkImage(
+                  fit: BoxFit.cover,
+                  imageUrl: product.image,
+                ),
+              ),
+              actions: [Icon(CupertinoIcons.heart)],
+            ),
+            SliverToBoxAdapter(
+              child: Column(children: [
+                Row(
+                  children: [
+                    Expanded(child: Text(product.title)),
+                    Column(
+                      children: [
+                        Text(
+                          product.previousPrice.toString(),
+                        ),
+                        Text(
+                          product.price.toString(),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+                const Text(lorem),
+                Container(
+                  height: 600,
+                  color: Colors.amber,
+                )
+              ]),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
