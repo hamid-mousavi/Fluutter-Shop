@@ -1,7 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:nike/data/Model/Entity/banner.dart';
 import 'package:nike/data/common/validator_response.dart';
-import 'package:nike/main.dart';
 
 abstract class IBannerDatasource {
   Future<List<BannerEntity>> getAll();
