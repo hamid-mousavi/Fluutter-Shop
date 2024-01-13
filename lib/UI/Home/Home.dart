@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nike/UI/Home/bloc/home_bloc.dart';
 import 'package:nike/UI/Widgets/pageviewscrollbar.dart';
+import 'package:nike/UI/comment/comment_list.dart';
 import 'package:nike/data/Model/Entity/Product.dart';
 import 'package:nike/data/Repository/banner_repository.dart';
 import 'package:nike/data/Repository/productrepository.dart';
@@ -160,58 +161,6 @@ class ProductFilterListWidget extends StatelessWidget {
           ),
         )
       ],
-    );
-  }
-}
-
-class ProductDetailScreen extends StatelessWidget {
-  final ProductEntity product;
-
-  const ProductDetailScreen({super.key, required this.product});
-  @override
-  Widget build(BuildContext context) {
-    return Directionality(
-      textDirection: TextDirection.rtl,
-      child: Scaffold(
-        body: CustomScrollView(
-          slivers: [
-            SliverAppBar(
-              expandedHeight: MediaQuery.of(context).size.width - 100,
-              flexibleSpace: ClipRRect(
-                child: CachedNetworkImage(
-                  fit: BoxFit.cover,
-                  imageUrl: product.image,
-                ),
-              ),
-              actions: [Icon(CupertinoIcons.heart)],
-            ),
-            SliverToBoxAdapter(
-              child: Column(children: [
-                Row(
-                  children: [
-                    Expanded(child: Text(product.title)),
-                    Column(
-                      children: [
-                        Text(
-                          product.previousPrice.toString(),
-                        ),
-                        Text(
-                          product.price.toString(),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-                const Text(lorem),
-                Container(
-                  height: 600,
-                  color: Colors.amber,
-                )
-              ]),
-            ),
-          ],
-        ),
-      ),
     );
   }
 }
