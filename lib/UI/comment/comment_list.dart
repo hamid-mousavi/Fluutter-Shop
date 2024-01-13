@@ -47,6 +47,15 @@ class ProductDetailScreen extends StatelessWidget {
                   ],
                 ),
                 const Text(lorem),
+                const SizedBox(height: 15),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text('نظرات کاربران'),
+                    TextButton(
+                        onPressed: () {}, child: const Text('مشاهده همه'))
+                  ],
+                )
               ]),
             ),
             CommentList(productId: product.id),
@@ -115,6 +124,7 @@ class CommentItem extends StatelessWidget {
       decoration: BoxDecoration(border: Border.all(color: Colors.grey)),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -123,17 +133,9 @@ class CommentItem extends StatelessWidget {
               Text(comment.date),
             ],
           ),
-          Row(
-            children: [
-              Text(comment.email),
-            ],
-          ),
-          SizedBox(height: 20),
-          Row(
-            children: [
-              Text(comment.content),
-            ],
-          ),
+          Text(comment.email),
+          const SizedBox(height: 20),
+          Text(comment.content),
         ],
       ),
     );
