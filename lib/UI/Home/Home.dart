@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -25,50 +24,46 @@ class MyHomePage extends StatelessWidget {
         homeBloc.add(HomeStarted());
         return homeBloc;
       },
-      child: Directionality(
-        textDirection: TextDirection.rtl,
-        child: Scaffold(
-          body: BlocBuilder<HomeBloc, HomeState>(
-            builder: (context, state) {
-              if (state is HomeSuccess) {
-                return ListView.builder(
-                  itemCount: 5,
-                  itemBuilder: (context, index) {
-                    switch (index) {
-                      case 0:
-                        return Image.asset(
-                          'assets/images/nike.png',
-                          height: 50,
-                        );
-                      case 2:
-                        return ItemsSchroolPage(
-                          lists: state.banners,
-                          height: 200,
-                          borderRaduis: 50,
-                        );
+      child: Scaffold(
+        body: BlocBuilder<HomeBloc, HomeState>(
+          builder: (context, state) {
+            if (state is HomeSuccess) {
+              return ListView.builder(
+                itemCount: 5,
+                itemBuilder: (context, index) {
+                  switch (index) {
+                    case 0:
+                      return Image.asset(
+                        'assets/images/nike.png',
+                        height: 50,
+                      );
+                    case 2:
+                      return ItemsSchroolPage(
+                        lists: state.banners,
+                        height: 200,
+                        borderRaduis: 50,
+                      );
 
-                      case 3:
-                        return ProductFilterListWidget(
-                            title: 'جدیدترین ها',
-                            products: state.latestProduct);
-                      case 4:
-                        return ProductFilterListWidget(
-                            title: 'پرفروش ها', products: state.popularProduct);
+                    case 3:
+                      return ProductFilterListWidget(
+                          title: 'جدیدترین ها', products: state.latestProduct);
+                    case 4:
+                      return ProductFilterListWidget(
+                          title: 'پرفروش ها', products: state.popularProduct);
 
-                      default:
-                        return Container();
-                    }
-                  },
-                );
-              } else if (state is HomeLoading) {
-                return const Center(child: CircularProgressIndicator());
-              } else if (state is HomeError) {
-                return const Text('Error');
-              } else {
-                return const Text('State Not Valid');
-              }
-            },
-          ),
+                    default:
+                      return Container();
+                  }
+                },
+              );
+            } else if (state is HomeLoading) {
+              return const Center(child: CircularProgressIndicator());
+            } else if (state is HomeError) {
+              return const Text('Error');
+            } else {
+              return const Text('State Not Valid');
+            }
+          },
         ),
       ),
     );

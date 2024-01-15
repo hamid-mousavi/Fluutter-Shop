@@ -14,53 +14,49 @@ class ProductDetailScreen extends StatelessWidget {
   const ProductDetailScreen({super.key, required this.product});
   @override
   Widget build(BuildContext context) {
-    return Directionality(
-      textDirection: TextDirection.rtl,
-      child: Scaffold(
-        body: CustomScrollView(
-          slivers: [
-            SliverAppBar(
-              expandedHeight: MediaQuery.of(context).size.width - 100,
-              flexibleSpace: ClipRRect(
-                child: CachedNetworkImage(
-                  fit: BoxFit.cover,
-                  imageUrl: product.image,
-                ),
+    return Scaffold(
+      body: CustomScrollView(
+        slivers: [
+          SliverAppBar(
+            expandedHeight: MediaQuery.of(context).size.width - 100,
+            flexibleSpace: ClipRRect(
+              child: CachedNetworkImage(
+                fit: BoxFit.cover,
+                imageUrl: product.image,
               ),
-              actions: [Icon(CupertinoIcons.heart)],
             ),
-            SliverToBoxAdapter(
-              child: Column(children: [
-                Row(
-                  children: [
-                    Expanded(child: Text(product.title)),
-                    Column(
-                      children: [
-                        Text(
-                          product.previousPrice.toString(),
-                        ),
-                        Text(
-                          product.price.toString(),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-                const Text(lorem),
-                const SizedBox(height: 15),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Text('نظرات کاربران'),
-                    TextButton(
-                        onPressed: () {}, child: const Text('مشاهده همه'))
-                  ],
-                )
-              ]),
-            ),
-            CommentList(productId: product.id),
-          ],
-        ),
+            actions: [Icon(CupertinoIcons.heart)],
+          ),
+          SliverToBoxAdapter(
+            child: Column(children: [
+              Row(
+                children: [
+                  Expanded(child: Text(product.title)),
+                  Column(
+                    children: [
+                      Text(
+                        product.previousPrice.toString(),
+                      ),
+                      Text(
+                        product.price.toString(),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+              const Text(lorem),
+              const SizedBox(height: 15),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text('نظرات کاربران'),
+                  TextButton(onPressed: () {}, child: const Text('مشاهده همه'))
+                ],
+              )
+            ]),
+          ),
+          CommentList(productId: product.id),
+        ],
       ),
     );
   }

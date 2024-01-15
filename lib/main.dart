@@ -1,9 +1,13 @@
+import 'dart:io';
+
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:nike/UI/Home/Home.dart';
-import 'package:nike/UI/root.dart';
+import 'package:nike/data/Repository/Auth/AuthRepository.dart';
+
+import 'UI/Login/login_screen.dart';
 
 void main() {
+  authRepository.loadToken();
   runApp(const MyApp());
 }
 
@@ -20,7 +24,8 @@ class MyApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
         ),
-        home: const RootScreen());
+        home: Directionality(
+            textDirection: TextDirection.rtl, child: LoginScreen()));
   }
 }
 

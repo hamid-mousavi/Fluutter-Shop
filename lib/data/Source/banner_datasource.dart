@@ -6,10 +6,10 @@ abstract class IBannerDatasource {
   Future<List<BannerEntity>> getAll();
 }
 
-class BannerDatasorce with ValditorResponse implements IBannerDatasource {
+class BannerRemoteDatasorce with ValditorResponse implements IBannerDatasource {
   final Dio httpClient;
 
-  BannerDatasorce(this.httpClient);
+  BannerRemoteDatasorce(this.httpClient);
   @override
   Future<List<BannerEntity>> getAll() async {
     final respnse = await httpClient.get('banner/slider');
