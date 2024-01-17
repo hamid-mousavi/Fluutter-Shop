@@ -1,5 +1,5 @@
 import 'package:nike/data/Model/Entity/banner.dart';
-import 'package:nike/data/Source/banner_datasource.dart';
+import 'package:nike/data/Source/Banner/banner_datasource.dart';
 import 'package:nike/data/common/http_client.dart';
 
 final bannerRepository = BannerRepository(BannerRemoteDatasorce(httpClient));

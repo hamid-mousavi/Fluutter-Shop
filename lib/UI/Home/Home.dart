@@ -5,8 +5,8 @@ import 'package:nike/UI/Home/bloc/home_bloc.dart';
 import 'package:nike/UI/Widgets/pageviewscrollbar.dart';
 import 'package:nike/UI/comment/comment_list.dart';
 import 'package:nike/data/Model/Entity/Product.dart';
-import 'package:nike/data/Repository/banner_repository.dart';
-import 'package:nike/data/Repository/productrepository.dart';
+import 'package:nike/data/Repository/Banner/banner_repository.dart';
+import 'package:nike/data/Repository/product/productrepository.dart';
 
 const String lorem =
     'لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ، و با استفاده از طراحان گرافیک است، چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است، و برای شرایط فعلی تکنولوژی مورد نیاز، و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد، .';

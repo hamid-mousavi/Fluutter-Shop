@@ -16,6 +16,4 @@ class AuthBtnClicked extends AuthEvent {
   const AuthBtnClicked({required this.userName, required this.password});
 }
 
-class AuthModeChanged extends AuthEvent {
-  bool authMode = true;
-}
+class AuthModeChanged extends AuthEvent {}

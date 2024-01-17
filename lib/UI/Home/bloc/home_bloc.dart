@@ -2,8 +2,8 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:nike/data/Model/Entity/Product.dart';
 import 'package:nike/data/Model/Entity/banner.dart';
-import 'package:nike/data/Repository/banner_repository.dart';
-import 'package:nike/data/Repository/productrepository.dart';
+import 'package:nike/data/Repository/Banner/banner_repository.dart';
+import 'package:nike/data/Repository/product/productrepository.dart';
 
 part 'home_event.dart';
 part 'home_state.dart';

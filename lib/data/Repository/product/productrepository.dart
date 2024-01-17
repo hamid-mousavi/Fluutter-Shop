@@ -1,5 +1,5 @@
 import 'package:nike/data/Model/Entity/Product.dart';
-import 'package:nike/data/Source/datasourcereposirory.dart';
+import 'package:nike/data/Source/Product/datasourcereposirory.dart';
 import 'package:nike/data/common/http_client.dart';
 
 final productRepository =
