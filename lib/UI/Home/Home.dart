@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nike/UI/Home/bloc/home_bloc.dart';
 import 'package:nike/UI/Widgets/pageviewscrollbar.dart';
-import 'package:nike/UI/comment/comment_list.dart';
+import 'package:nike/UI/Detail/product_detail.dart';
 import 'package:nike/data/Model/Entity/Product.dart';
 import 'package:nike/data/Repository/Banner/banner_repository.dart';
 import 'package:nike/data/Repository/product/productrepository.dart';

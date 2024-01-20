@@ -2,11 +2,13 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:nike/UI/root.dart';
 import 'package:nike/data/Repository/Auth/AuthRepository.dart';
+import 'package:nike/data/Repository/cart/cart_repository.dart';
 
 import 'UI/Login/login_screen.dart';
 
-void main() {
+void main() async {
   authRepository.loadToken();
+
   runApp(const MyApp());
 }
 
