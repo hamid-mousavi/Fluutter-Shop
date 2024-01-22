@@ -2,9 +2,6 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:nike/UI/root.dart';
 import 'package:nike/data/Repository/Auth/AuthRepository.dart';
-import 'package:nike/data/Repository/cart/cart_repository.dart';
-
-import 'UI/Login/login_screen.dart';
 
 void main() async {
   authRepository.loadToken();
@@ -21,10 +18,12 @@ class MyApp extends StatelessWidget {
         scrollBehavior: MyCustomScrollBehavior(),
         title: 'Nick Shop',
         theme: ThemeData(
-          fontFamily: 'Vazir',
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-          useMaterial3: true,
-        ),
+            fontFamily: 'Vazir',
+            colorScheme: const ColorScheme.light(
+              primary: Color(0xff217CF3),
+              secondary: Color(0xff262A35),
+              background: Colors.grey,
+            )),
         home: const Directionality(
             textDirection: TextDirection.rtl, child: RootScreen()));
   }

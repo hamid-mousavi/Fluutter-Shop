@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:nike/UI/Home/Home.dart';
+import 'package:nike/UI/Profile/profile.dart';
 import 'package:nike/UI/cart/cart.dart';
 
 const int homeIndex = 0;
@@ -62,9 +63,7 @@ class _RootScreenState extends State<RootScreen> {
               _navigator(
                 _profileKey,
                 profileIndex,
-                const Center(
-                  child: Text('Profile'),
-                ),
+                ProfileScreen(),
               ),
             ],
           ),
