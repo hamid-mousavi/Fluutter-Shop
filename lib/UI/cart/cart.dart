@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nike/UI/Login/login_screen.dart';
 import 'package:nike/UI/cart/bloc/cart_bloc.dart';
+import 'package:nike/data/Model/Entity/add_to_cart_response.dart';
 import 'package:nike/data/Repository/Auth/AuthRepository.dart';
 import 'package:nike/data/Repository/cart/cart_repository.dart';
 
@@ -15,6 +16,7 @@ class CartScreen extends StatefulWidget {
 
 class _CartScreenState extends State<CartScreen> {
   CartBloc? cartBloc;
+
   @override
   void initState() {
     AuthRepository.authChangeNotifier.addListener(athChangeNotifierListner);
@@ -57,120 +59,24 @@ class _CartScreenState extends State<CartScreen> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(
-                  width: MediaQuery.of(context).size.width,
-                  height: 250,
-                  child: ListView.builder(
-                    itemCount: state.items.cartsItems.length,
-                    itemBuilder: (context, index) {
-                      final item = state.items.cartsItems[index];
-                      return Padding(
-                        padding: const EdgeInsets.only(bottom: 10),
-                        child: Container(
-                          decoration: const BoxDecoration(boxShadow: [
-                            BoxShadow(blurRadius: 10, color: Colors.grey)
-                          ], color: Colors.white),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                children: [
-                                  SizedBox(
-                                    width: 100,
-                                    height: 70,
-                                    child:
-                                        Image.network(item.productEntity.image),
-                                  ),
-                                  Text(item.productEntity.title)
-                                ],
-                              ),
-                              const Padding(
-                                padding: EdgeInsets.only(right: 16),
-                                child: Text('تعداد'),
-                              ),
-                              Row(
-                                children: [
-                                  IconButton(
-                                      onPressed: () {},
-                                      icon: const Icon(CupertinoIcons.plus)),
-                                  Text(item.count.toString()),
-                                  IconButton(
-                                      onPressed: () {},
-                                      icon: const Icon(CupertinoIcons.minus)),
-                                  const Expanded(child: SizedBox()),
-                                  Column(
-                                    children: [
-                                      Text(
-                                        '${item.productEntity.previousPrice}  تومان',
-                                        style: const TextStyle(
-                                            decoration:
-                                                TextDecoration.lineThrough),
-                                      ),
-                                      Text(
-                                          '${item.productEntity.price}  تومان'),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                              const Divider(),
-                              Center(
-                                child: Padding(
-                                  padding: const EdgeInsets.only(bottom: 15),
-                                  child: Text('حذف از سبد خرید',
-                                      style: TextStyle(
-                                          color:
-                                              Theme.of(context).primaryColor)),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      );
-                    },
+                Expanded(
+                  child: SizedBox(
+                    width: MediaQuery.of(context).size.width,
+                    child: ListView.builder(
+                      itemCount: state.items.cartsItems.length + 1,
+                      itemBuilder: (context, index) {
+                        if (index == state.items.cartsItems.length) {
+                          return CartInfo(state: state);
+                        } else {
+                          final item = state.items.cartsItems[index];
+                          return CartItemWidget(
+                            item: item,
+                          );
+                        }
+                      },
+                    ),
                   ),
                 ),
-                const Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Text('جزئیات خرید'),
-                ),
-                Container(
-                  color: Colors.white,
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            const Text('مبلغ کل خرید'),
-                            Text(state.items.totalPrice.toString()),
-                          ],
-                        ),
-                      ),
-                      const Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text('هرینه ارسال'),
-                            Text('رایگان'),
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            const Text('مبلغ قابل پرداخت'),
-                            Text(state.items.payablePrice.toString()),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                )
               ],
             );
           } else if (state is CartLoading) {
@@ -200,6 +106,139 @@ class _CartScreenState extends State<CartScreen> {
             return const Text('state not valid');
           }
         },
+      ),
+    );
+  }
+}
+
+class CartInfo extends StatelessWidget {
+  final CartLoadSuccess state;
+
+  const CartInfo({super.key, required this.state});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: Colors.white,
+      child: Column(
+        children: [
+          const Padding(
+            padding: EdgeInsets.all(8.0),
+            child: Text('جزئیات خرید'),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text('مبلغ کل خرید'),
+                Text(state.items.totalPrice.toString()),
+              ],
+            ),
+          ),
+          const Padding(
+            padding: EdgeInsets.all(8.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text('هرینه ارسال'),
+                Text('رایگان'),
+              ],
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text('مبلغ قابل پرداخت'),
+                Text(state.items.payablePrice.toString()),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class CartItemWidget extends StatelessWidget {
+  final CartItem item;
+
+  const CartItemWidget({super.key, required this.item});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 10),
+      child: Container(
+        decoration: const BoxDecoration(
+            boxShadow: [BoxShadow(blurRadius: 10, color: Colors.grey)],
+            color: Colors.white),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                SizedBox(
+                  width: 100,
+                  height: 70,
+                  child: Image.network(item.productEntity.image),
+                ),
+                Text(item.productEntity.title)
+              ],
+            ),
+            const Padding(
+              padding: EdgeInsets.only(right: 16),
+              child: Text('تعداد'),
+            ),
+            Row(
+              children: [
+                IconButton(
+                    onPressed: () {
+                      BlocProvider.of<CartBloc>(context).add(
+                          IncreaseItemsCartBtn(item.count,
+                              cartItemId: item.cartItemId));
+                    },
+                    icon: const Icon(CupertinoIcons.plus)),
+                Text(item.count.toString()),
+                IconButton(
+                    onPressed: () {
+                      BlocProvider.of<CartBloc>(context).add(
+                          DecreaseItemsCartBtn(
+                              count: item.count, cartItemId: item.cartItemId));
+                    },
+                    icon: const Icon(CupertinoIcons.minus)),
+                const Expanded(child: SizedBox()),
+                Column(
+                  children: [
+                    Text(
+                      '${item.productEntity.previousPrice}  تومان',
+                      style: const TextStyle(
+                          decoration: TextDecoration.lineThrough),
+                    ),
+                    Text('${item.productEntity.price}  تومان'),
+                  ],
+                ),
+              ],
+            ),
+            const Divider(),
+            InkWell(
+              onTap: () {
+                BlocProvider.of<CartBloc>(context)
+                    .add(DeleteFromCartBtn(cartId: item.cartItemId));
+              },
+              child: Center(
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: 15),
+                  child: Text('حذف از سبد خرید',
+                      style: TextStyle(color: Theme.of(context).primaryColor)),
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

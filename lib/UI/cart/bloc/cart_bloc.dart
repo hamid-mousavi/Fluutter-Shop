@@ -8,7 +8,7 @@ part 'cart_event.dart';
 part 'cart_state.dart';
 
 class CartBloc extends Bloc<CartEvent, CartState> {
-  final CartRepository cartRepository;
+  final ICartRepository cartRepository;
   CartBloc(this.cartRepository) : super(CartInitial()) {
     on<CartEvent>((event, emit) async {
       emit(CartLoading());
@@ -25,6 +25,13 @@ class CartBloc extends Bloc<CartEvent, CartState> {
           }
         }
       } else if (event is DeleteFromCartBtn) {
+        try {
+          await cartRepository.removeCartItem(event.cartId);
+          final items = await cartRepository.cartItemList();
+          emit(CartLoadSuccess(items: items));
+        } catch (e) {
+          emit(CartError(error: e.toString()));
+        }
       } else if (event is AuthStateChangedEvent) {
         final AuthInfo? authInfo = event.authInfo;
         if (authInfo == null || authInfo.accessTocken.isEmpty) {
@@ -36,6 +43,28 @@ class CartBloc extends Bloc<CartEvent, CartState> {
           } catch (e) {
             emit(CartError(error: e.toString()));
           }
+        }
+      } else if (event is IncreaseItemsCartBtn) {
+        try {
+          await cartRepository.changeCount(event.cartItemId, event.count + 1);
+          final items = await cartRepository.cartItemList();
+          emit(CartLoadSuccess(items: items));
+        } catch (e) {
+          emit(CartError(error: e.toString()));
+        }
+      } else if (event is DecreaseItemsCartBtn) {
+        try {
+          if (event.count < 2) {
+            await cartRepository.removeCartItem(event.cartItemId);
+            final items = await cartRepository.cartItemList();
+            emit(CartLoadSuccess(items: items));
+          } else {
+            await cartRepository.changeCount(event.cartItemId, event.count - 1);
+            final items = await cartRepository.cartItemList();
+            emit(CartLoadSuccess(items: items));
+          }
+        } catch (e) {
+          emit(CartError(error: e.toString()));
         }
       }
     });

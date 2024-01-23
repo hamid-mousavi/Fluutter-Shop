@@ -11,6 +11,8 @@ final cartRepository =
 abstract class ICartRepository {
   Future<AddToCartResponse> addItem(int productId);
   Future<CartItemResponse> cartItemList();
+  Future<void> changeCount(int cartItemId, int count);
+  Future<void> removeCartItem(int cartItemId);
 }
 
 class CartRepository implements ICartRepository {
@@ -27,5 +29,16 @@ class CartRepository implements ICartRepository {
   Future<CartItemResponse> cartItemList() async {
     final data = dataSource.cartItemList();
     return data;
+  }
+
+  @override
+  Future<void> changeCount(int cartItemId, int count) async {
+    final data = await dataSource.changeCount(cartItemId, count);
+    return data;
+  }
+
+  @override
+  Future<void> removeCartItem(int cartItemId) async {
+    await dataSource.removeCartItem(cartItemId);
   }
 }

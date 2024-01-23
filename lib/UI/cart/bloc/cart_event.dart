@@ -13,9 +13,19 @@ class DeleteFromCartBtn extends CartEvent {
   const DeleteFromCartBtn({required this.cartId});
 }
 
-class IncreaseItemsCartBtn extends CartEvent {}
+class IncreaseItemsCartBtn extends CartEvent {
+  final int cartItemId;
+  final int count;
 
-class DecreaseItemsCartBtn extends CartEvent {}
+  const IncreaseItemsCartBtn(this.count, {required this.cartItemId});
+}
+
+class DecreaseItemsCartBtn extends CartEvent {
+  final int cartItemId;
+  final int count;
+
+  const DecreaseItemsCartBtn({required this.cartItemId, required this.count});
+}
 
 class CartOnStarted extends CartEvent {
   final AuthInfo? authInfo;
