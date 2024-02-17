@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nike/UI/Detail/bloc/product_detail_bloc.dart';
 import 'package:nike/UI/Home/Home.dart';
 import 'package:nike/data/Model/Entity/Product.dart';
+import 'package:nike/data/Repository/Auth/AuthRepository.dart';
 import 'package:nike/data/Repository/cart/cart_repository.dart';
 
 import '../comment/comment_list.dart';
@@ -36,8 +37,14 @@ class ProductDetailScreen extends StatelessWidget {
           builder: (context, state) {
             return FloatingActionButton.extended(
                 onPressed: () {
-                  BlocProvider.of<ProductDetailBloc>(context)
-                      .add(AddToCartButtnClicked(productId: product.id));
+                  AuthRepository.authChangeNotifier.value != null &&
+                          AuthRepository
+                              .authChangeNotifier.value!.accessTocken.isNotEmpty
+                      ? BlocProvider.of<ProductDetailBloc>(context)
+                          .add(AddToCartButtnClicked(productId: product.id))
+                      : ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                              content: Text('لطفا ابتدا وارد شوید')));
                 },
                 label: SizedBox(
                     width: MediaQuery.of(context).size.width - 100,

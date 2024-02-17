@@ -197,17 +197,27 @@ class CartItemWidget extends StatelessWidget {
               children: [
                 IconButton(
                     onPressed: () {
-                      BlocProvider.of<CartBloc>(context).add(
-                          IncreaseItemsCartBtn(item.count,
-                              cartItemId: item.cartItemId));
+                      item.count < 5
+                          ? BlocProvider.of<CartBloc>(context).add(
+                              IncreaseItemsCartBtn(item.count,
+                                  cartItemId: item.cartItemId))
+                          : ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                  content: Text('نمیتواند بیش از 5 باشد')));
                     },
                     icon: const Icon(CupertinoIcons.plus)),
-                Text(item.count.toString()),
+                item.changeCountBtn
+                    ? const CupertinoActivityIndicator()
+                    : Text(item.count.toString()),
                 IconButton(
                     onPressed: () {
-                      BlocProvider.of<CartBloc>(context).add(
-                          DecreaseItemsCartBtn(
-                              count: item.count, cartItemId: item.cartItemId));
+                      item.count > 1
+                          ? BlocProvider.of<CartBloc>(context).add(
+                              DecreaseItemsCartBtn(
+                                  count: item.count,
+                                  cartItemId: item.cartItemId))
+                          : BlocProvider.of<CartBloc>(context)
+                              .add(DeleteFromCartBtn(cartId: item.cartItemId));
                     },
                     icon: const Icon(CupertinoIcons.minus)),
                 const Expanded(child: SizedBox()),
@@ -232,8 +242,11 @@ class CartItemWidget extends StatelessWidget {
               child: Center(
                 child: Padding(
                   padding: const EdgeInsets.only(bottom: 15),
-                  child: Text('حذف از سبد خرید',
-                      style: TextStyle(color: Theme.of(context).primaryColor)),
+                  child: item.progressDeletingBtn
+                      ? const CupertinoActivityIndicator()
+                      : Text('حذف از سبد خرید',
+                          style:
+                              TextStyle(color: Theme.of(context).primaryColor)),
                 ),
               ),
             ),

@@ -15,6 +15,8 @@ class CartItem {
   final int cartItemId;
   final ProductEntity productEntity;
   final int count;
+  bool progressDeletingBtn = false;
+  bool changeCountBtn = false;
 
   CartItem.fromJson(Map<String, dynamic> json)
       : cartItemId = json['cart_item_id'],
